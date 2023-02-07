@@ -1,6 +1,8 @@
-import React from "react";
+import React, {useState} from "react";
 import {Text, TextInput, View, StyleSheet} from "react-native";
 import colors from "../utils/colors";
+import RNPickerSelect from 'react-native-picker-select';
+
 export default function Form(){
     return(
        <View style={estilitos.viewForm}>
@@ -9,6 +11,14 @@ export default function Form(){
                <TextInput placeholder="Interes %" keyboardType="numeric" style={[estilitos.input, {width: "40%"}]}/>
            </View>
            <Text>Select</Text>
+           <RNPickerSelect
+               onValueChange={(value) => console.log(value)}
+               items={[
+                   { label: 'Football', value: 'football' },
+                   { label: 'Baseball', value: 'baseball' },
+                   { label: 'Hockey', value: 'hockey' },
+               ]}
+           />
        </View>
     )
 }
