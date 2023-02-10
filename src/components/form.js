@@ -18,11 +18,12 @@ export default function Form(props){
                onValueChange={(value) => setPlazos(value)}
                useNativeAndroidPickerStyle={false}
                items={[
-                   { label: 'Football', value: 'football' },
-                   { label: 'Baseball', value: 'baseball' },
-                   { label: 'Hockey', value: 'hockey' },
+                   { label: '12 meses', value: '12' },
+                   { label: '6 meses', value: '6' },
+                   { label: '3 meses', value: '3' },
                ]}
            />
+
        </View>
     )
 }

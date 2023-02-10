@@ -1,20 +1,41 @@
-import {StatusBar, SafeAreaView, StyleSheet, Text, View, Button} from 'react-native';
+import {StatusBar, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import colors from './src/utils/colors'
 import Form from "./src/components/form";
 import {useState} from "react";
+import Boton from "./src/components/Boton";
+import Results from "./src/components/Results";
 
 export default function App() {
     const [cantSol, setCant]=useState(null);
     const [interes, setInteres]=useState(null);
     const [plazos, setPlazos]=useState(null);
-
-    const calcular=()=>{
-        console.log(`cant: ${cantSol}`)
-        console.log(`Interes: ${interes}`)
-        console.log(`plazos: ${plazos}`)
+    const [prestamo, setPrestamo]=useState(null);
+    const [errors, setErrors]=useState("");
+    const reset=()=>{
+        setErrors("")
+        setPrestamo(null)
     }
+    const calcular=()=>{
+        reset()
+        if (!cantSol){
+           setErrors("falta cantidad")
+        }else if(!interes){
+            setErrors("falta interes")
+        }else if(!plazos){
+            setErrors("falta plazos")
+        }else{
+            const inter =  interes/100;
+            const pagos = cantSol/((1-Math.pow(inter+1, -plazos))/inter);
+            setPrestamo({
+                pagoMes:pagos.toFixed(2),
+                pagoTotal:(pagos*plazos).toFixed(2)
+            })
+            console.log(prestamo)
+        }
+    }
+
   return (
-    <View>
+    <View style={{height: "100%"}}>
       <StatusBar style={'light-content'}></StatusBar>
      <View>
        <SafeAreaView style={styles.safeArea}>
@@ -23,12 +44,8 @@ export default function App() {
            <Form setCantidad={setCant} setInteres={setInteres} setPlazos={setPlazos}/>
        </SafeAreaView>
      </View>
-      <View>
-        <Text style={[styles.resultados, {fontWeight:"bold"}]}>Resultados</Text>
-      </View>
-      <View style={styles.boton}>
-        <Button title={"Botoncito"} onPress={calcular} />
-      </View>
+        <Results errors={errors} interes={interes} plazos={plazos} cantidad={cantSol} prestamo={prestamo}></Results>
+        <Boton fnCalcular={calcular}></Boton>
     </View>
   );
 }
