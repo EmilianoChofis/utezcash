@@ -1,20 +1,30 @@
 import {StatusBar, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import colors from './src/utils/colors'
 import Form from "./src/components/form";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Boton from "./src/components/Boton";
 import Results from "./src/components/Results";
 
 export default function App() {
-    const [cantSol, setCant]=useState(null);
-    const [interes, setInteres]=useState(null);
-    const [plazos, setPlazos]=useState(null);
-    const [prestamo, setPrestamo]=useState(null);
-    const [errors, setErrors]=useState("");
+    const [cantSol, setCant] = useState(null);
+    const [interes, setInteres] = useState(null);
+    const [plazos, setPlazos] = useState(null);
+    const [prestamo, setPrestamo] = useState(null);
+    const [errors, setErrors] = useState("");
+
+
+    useEffect(()=>{
+        if (cantSol&&interes&&plazos){
+            calcular();
+        }else{
+            reset();
+        }
+    }, [cantSol, interes, plazos])
     const reset=()=>{
         setErrors("")
         setPrestamo(null)
     }
+
     const calcular=()=>{
         reset()
         if (!cantSol){
